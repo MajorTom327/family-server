@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { afterEach } from "node:test";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { Users } from ".";
 import FamilyModel from "./Family";
 
 describe("Create family", () => {
@@ -17,6 +18,7 @@ describe("Create family", () => {
   });
 
   it("should create a family", () => {
+    Users.setFamily = vi.fn();
     const ownerId = faker.string.uuid();
     const family = familyModel.createFamily({
       ownerId,
@@ -28,6 +30,8 @@ describe("Create family", () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    expect(Users.setFamily).toHaveBeenCalledWith(ownerId, family.id);
   });
 
   it("Should throw if the input is invalid", () => {

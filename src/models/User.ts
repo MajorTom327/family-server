@@ -1,3 +1,4 @@
+import { assoc } from "ramda";
 import { v4 as uuid } from "uuid";
 import zod from "zod";
 
@@ -47,6 +48,29 @@ export class UserModel {
     const limit = 10;
     const startPage = page * limit;
     return this.users.slice(startPage, startPage + limit);
+  }
+
+  getUserFromFamily(familyId: string) {
+    const user = this.users.find((user) => user.familyId === familyId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user;
+  }
+
+  setFamily(ownerId: string, id: string) {
+    let user = this.users.find((user) => user.id === ownerId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    this.users = this.users.map((user) => {
+      if (user.id === ownerId) {
+        return assoc("familyId", id, user);
+      }
+      return user;
+    });
   }
 }
 

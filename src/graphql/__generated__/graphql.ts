@@ -37,6 +37,10 @@ export type Scalars = {
   Date: { input: any; output: any };
 };
 
+export type CreateFamilyInput = {
+  ownerId: Scalars["ID"]["input"];
+};
+
 export type CreateUserInput = {
   email: Scalars["String"]["input"];
   password: Scalars["String"]["input"];
@@ -46,24 +50,34 @@ export type Family = {
   __typename?: "Family";
   createdAt: Scalars["Date"]["output"];
   id: Scalars["ID"]["output"];
-  members: Array<User>;
+  members?: Maybe<Array<User>>;
   owner: User;
   updatedAt: Scalars["Date"]["output"];
 };
 
 export type Mutation = {
   __typename?: "Mutation";
+  createFamily: Family;
   createUser: User;
 };
 
+export type MutationCreateFamilyArgs = {
+  familyInput: CreateFamilyInput;
+};
+
 export type MutationCreateUserArgs = {
-  userInput?: InputMaybe<CreateUserInput>;
+  userInput: CreateUserInput;
 };
 
 export type Query = {
   __typename?: "Query";
+  family?: Maybe<Family>;
   user?: Maybe<User>;
   users: Array<User>;
+};
+
+export type QueryFamilyArgs = {
+  id: Scalars["ID"]["input"];
 };
 
 export type QueryUserArgs = {
@@ -192,6 +206,7 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
+  CreateFamilyInput: CreateFamilyInput;
   CreateUserInput: CreateUserInput;
   Date: ResolverTypeWrapper<Scalars["Date"]["output"]>;
   Family: ResolverTypeWrapper<Family>;
@@ -206,6 +221,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"]["output"];
+  CreateFamilyInput: CreateFamilyInput;
   CreateUserInput: CreateUserInput;
   Date: Scalars["Date"]["output"];
   Family: Family;
@@ -229,7 +245,11 @@ export type FamilyResolvers<
 > = {
   createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  members?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
+  members?: Resolver<
+    Maybe<Array<ResolversTypes["User"]>>,
+    ParentType,
+    ContextType
+  >;
   owner?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -240,11 +260,17 @@ export type MutationResolvers<
   ParentType extends
     ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
 > = {
+  createFamily?: Resolver<
+    ResolversTypes["Family"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateFamilyArgs, "familyInput">
+  >;
   createUser?: Resolver<
     ResolversTypes["User"],
     ParentType,
     ContextType,
-    Partial<MutationCreateUserArgs>
+    RequireFields<MutationCreateUserArgs, "userInput">
   >;
 };
 
@@ -253,6 +279,12 @@ export type QueryResolvers<
   ParentType extends
     ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
 > = {
+  family?: Resolver<
+    Maybe<ResolversTypes["Family"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryFamilyArgs, "id">
+  >;
   user?: Resolver<
     Maybe<ResolversTypes["User"]>,
     ParentType,

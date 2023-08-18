@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import { Hono } from "hono";
 import { afterEach } from "node:test";
 import sendGraphqlRequest from "test/lib/sendGraphqlRequest";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { Users } from "~/models";
 import { IUser } from "~/models/User";
 import server from "~/server";
@@ -10,8 +10,11 @@ import server from "~/server";
 describe("Create an user", () => {
   let app: Hono;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await server;
+  });
+
+  beforeEach(async () => {
     vi.useFakeTimers();
   });
 
@@ -96,7 +99,6 @@ describe("Get an user", () => {
     expect(response.status).toBe(200);
 
     const json = await response.json();
-    console.log(json);
 
     expect(json.data.user).toEqual({
       id: user.id,

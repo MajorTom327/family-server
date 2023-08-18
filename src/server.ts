@@ -8,18 +8,19 @@ import graphqlServer from "./graphql";
 import { HonoApollo } from "./graphql/HonoApollo";
 import internalLogger from "./lib/logger";
 
-export const app = new Hono();
+const server = (async () => {
+  const server = new Hono();
+  server.use("*", cors(), logger(), compress(), prettyJSON());
 
-export default new Promise<typeof app>(async (resolve) => {
-  app.use("*", cors(), logger(), compress(), prettyJSON());
-
-  app.get("/health", (c) => {
+  server.get("/health", (c) => {
     return c.json({ message: "OK" });
   });
 
   await graphqlServer.start();
 
   internalLogger.info("GraphQL server started");
-  app.use("/graphql", HonoApollo(graphqlServer));
-  resolve(app);
-});
+  server.use("/graphql", HonoApollo(graphqlServer));
+  return server;
+})();
+
+export default server;

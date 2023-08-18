@@ -145,3 +145,76 @@ describe("Create a user", () => {
     expect(() => users.createUser(user)).toThrow();
   });
 });
+
+describe("Get user from family", () => {
+  it("should return a user", () => {
+    const users = new User();
+
+    const user = {
+      id: "1",
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      familyId: "1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    users.users = [user];
+
+    const result = users.getUserFromFamily("1");
+
+    expect(result).toEqual(user);
+  });
+
+  it("should throw if the user is not found", () => {
+    const users = new User();
+
+    const user = {
+      id: "1",
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    users.users = [user];
+
+    expect(() => users.getUserFromFamily("2")).toThrow();
+  });
+});
+
+describe("Set family", () => {
+  it("should set the family", () => {
+    const users = new User();
+
+    const user = {
+      id: "1",
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    users.users = [user];
+
+    users.setFamily("1", "1");
+
+    expect(users.users[0].familyId).toBe("1");
+  });
+
+  it("should throw if the user is not found", () => {
+    const users = new User();
+
+    const user = {
+      id: "1",
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    users.users = [user];
+
+    expect(() => users.setFamily("2", "1")).toThrow();
+  });
+});

@@ -1,8 +1,22 @@
-import { Users } from "~/models";
+import { Families, Users } from "~/models";
 
 import logger from "~/lib/logger";
 
 export class UserResolver {
+  getFamily(id: string) {
+    const user = Users.getUser(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    console.log("user", user);
+
+    if (!user.familyId) {
+      return null;
+    }
+
+    return Families.getFamily(user.familyId);
+  }
   constructor() {}
 
   getUser(id: string) {

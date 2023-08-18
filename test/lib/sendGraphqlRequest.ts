@@ -6,6 +6,9 @@ type GraphqlInput = {
 };
 
 export const sendGraphqlRequest = async (app: Hono, query: GraphqlInput) => {
+  if (!app) {
+    throw new Error("No app provided");
+  }
   const request = new Request("http://localhost/graphql", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

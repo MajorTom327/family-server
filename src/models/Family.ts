@@ -1,6 +1,8 @@
 import { v4 as uuid } from "uuid";
 import zod from "zod";
 
+import { Users } from ".";
+
 export const FamilySchema = zod.object({
   id: zod.string(),
 
@@ -30,6 +32,8 @@ export class FamilyModel {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+
+    Users.setFamily(newFamily.ownerId, newFamily.id);
 
     this.families.push(newFamily);
 
