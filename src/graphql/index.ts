@@ -1,5 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { always } from "ramda";
+import { getEnv } from "~/config";
 
 import { Resolvers } from "~/graphql/__generated__/graphql";
 
@@ -37,7 +38,7 @@ export const resolvers: Resolvers = {
 const server = new ApolloServer<GraphQLContext>({
   typeDefs,
   resolvers,
-  introspection: process.env.NODE_ENV !== "production",
+  introspection: getEnv("NODE_ENV") !== "production",
 });
 
 export default server;

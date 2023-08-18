@@ -20,15 +20,15 @@ services:
     environment:
       - ADMINER_DEFAULT_SERVER=postgres
       - ADMINER_DESIGN=dracula
-  app:
-    build: .
-    restart: always
-    ports:
-      - 3000:3000
-    depends_on:
-      - postgres
-    environment:
-      - DB_HOST=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=dev
+  # app:
+  #   build: .
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=postgres
+  #     - DB_NAME=dev

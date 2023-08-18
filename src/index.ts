@@ -1,10 +1,9 @@
 import { serve } from "@hono/node-server";
 
+import { getEnv } from "./config";
 import app from "./server";
 
-const port = Number.parseInt(process.env.PORT || "3000");
-
 serve({
-  port,
+  port: getEnv("PORT", 3000),
   fetch: app.fetch,
 });

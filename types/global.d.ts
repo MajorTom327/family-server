@@ -1,4 +1,9 @@
-declare module "*.graphql" {
-  const typeDefs: string;
-  export default typeDefs;
+import { IEnvVars } from "~/config";
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv extends IEnvVars {}
+  }
 }
+
+export {};
