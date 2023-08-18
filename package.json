@@ -1,0 +1,50 @@
+{
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "start:dev": "nodemon --watch dist --watch .env -r dotenv/config ./dist/index.js",
+    "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
+    "build:dev": "node ./scripts/build.mjs --watch",
+    "build": "yarn generate && node ./scripts/build.mjs",
+    "prettier": "prettier --write ./app",
+    "generate": "graphql-codegen --config codegen.ts",
+    "prepare": "husky install",
+    "test": "vitest --ui --coverage",
+    "test:ci": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.9.1",
+    "@hono/node-server": "^1.1.0",
+    "graphql": "^16.8.0",
+    "hono": "^3.4.1",
+    "luxon": "^3.4.0",
+    "pino": "^8.15.0",
+    "pino-pretty": "^10.2.0",
+    "ramda": "^0.29.0",
+    "ramda-adjunct": "^4.0.0",
+    "ts-pattern": "^5.0.5",
+    "zod": "^3.22.1"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/introspection": "^4.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/luxon": "^3.3.1",
+    "@types/node": "^20.5.0",
+    "@types/ramda": "^0.29.3",
+    "@vitest/coverage-v8": "^0.34.2",
+    "@vitest/ui": "^0.34.2",
+    "concurrently": "^8.2.0",
+    "esbuild": "^0.19.2",
+    "husky": "^8.0.3",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.2",
+    "tsx": "^3.12.2",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.34.2"
+  }
+}
