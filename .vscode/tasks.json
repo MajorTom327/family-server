@@ -25,6 +25,31 @@
       ],
       "group": {
         "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "showReuseMessage": false,
+        "echo": false,
+        "focus": false,
+        "panel": "dedicated",
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "clear": true,
+        "close": true
+      },
+      "problemMatcher": [
+        "$tsc-watch"
+      ]
+    },
+    {
+      "label": "regenerate",
+      "type": "process",
+      "command": "yarn",
+      "args": [
+        "generate"
+      ],
+      "group": {
+        "kind": "build",
         "isDefault": true
       },
       "presentation": {

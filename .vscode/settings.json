@@ -19,10 +19,7 @@
     ".github": true,
     ".husky": true,
     ".vscode": true,
-    "scripts": true,
+    "scripts": false,
   },
-  "vitest.commandLine": "yarn test",
-  "cSpell.words": [
-    "hono"
-  ],
+  "vitest.commandLine": "yarn test"
 }

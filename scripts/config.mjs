@@ -3,19 +3,18 @@ export const external = [];
 export const baseConfig = {
   entryPoints: ["src/index.ts"],
   bundle: true,
-  minify: true,
   sourcemap: true,
   target: ["es2020"],
   outfile: "dist/index.js",
   platform: "node",
   external,
   loader: { ".graphql": "text" },
-  define: {
-  },
+  define: {},
 };
 
 export const productionConfig = {
   sourcemap: false,
+  minify: true,
   drop: ["debugger", "console"],
 };
 

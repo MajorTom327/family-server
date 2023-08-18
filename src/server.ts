@@ -6,10 +6,11 @@ import { prettyJSON } from "hono/pretty-json";
 
 import graphqlServer from "./graphql";
 import { HonoApollo } from "./graphql/HonoApollo";
+import internalLogger from "./lib/logger";
 
 export const app = new Hono();
 
-(async () => {
+export default new Promise<typeof app>(async (resolve) => {
   app.use("*", cors(), logger(), compress(), prettyJSON());
 
   app.get("/health", (c) => {
@@ -17,7 +18,8 @@ export const app = new Hono();
   });
 
   await graphqlServer.start();
-  app.use("/graphql", HonoApollo(graphqlServer));
-})();
 
-export default app;
+  internalLogger.info("GraphQL server started");
+  app.use("/graphql", HonoApollo(graphqlServer));
+  resolve(app);
+});

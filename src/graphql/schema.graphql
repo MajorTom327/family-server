@@ -22,10 +22,15 @@ type Family {
 }
 
 type Query {
-  users: [User!]!
+  users(page: Int): [User!]!
   user(id: ID!): User
 }
 
+input CreateUserInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
-  createUser: User!
+  createUser(userInput: CreateUserInput): User!
 }

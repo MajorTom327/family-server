@@ -2,9 +2,9 @@ import { ApolloServer } from "@apollo/server";
 import { always } from "ramda";
 import { getEnv } from "~/config";
 
-import { Resolvers } from "~/graphql/__generated__/graphql";
-
 import dateScalar from "./Scalar/DateScalar";
+import type { Resolvers } from "./__generated__/graphql";
+import UserResolver from "./resolvers/UserResolver";
 // import { ClientResolver } from "./resolvers/ClientResolver";
 // import ProjectResolver from "./resolvers/ProjectResolver";
 import typeDefs from "./schema.graphql";
@@ -13,8 +13,9 @@ export type GraphQLContext = {};
 
 export const resolvers: Resolvers = {
   Query: {
-    user: () => null,
-    users: () => [],
+    user: (_, { id }) => new UserResolver().getUser(id),
+    users: (_, { page }) => new UserResolver().getUsers(page || 0),
+    // family: (_, { id }) => new Fami().getFamily(id),
   },
   // Project: {
   //   clients: always([]),
@@ -27,6 +28,7 @@ export const resolvers: Resolvers = {
   // },
 
   Mutation: {
+    createUser: (_, { userInput }) => new UserResolver().createUser(userInput),
     // createProject: (parents, { name }) =>
     //   new ProjectResolver().createProject(name),
     // createClient: (parents, { name, email, projectId }) =>

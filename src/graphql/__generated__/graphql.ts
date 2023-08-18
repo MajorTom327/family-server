@@ -37,6 +37,11 @@ export type Scalars = {
   Date: { input: any; output: any };
 };
 
+export type CreateUserInput = {
+  email: Scalars["String"]["input"];
+  password: Scalars["String"]["input"];
+};
+
 export type Family = {
   __typename?: "Family";
   createdAt: Scalars["Date"]["output"];
@@ -51,6 +56,10 @@ export type Mutation = {
   createUser: User;
 };
 
+export type MutationCreateUserArgs = {
+  userInput?: InputMaybe<CreateUserInput>;
+};
+
 export type Query = {
   __typename?: "Query";
   user?: Maybe<User>;
@@ -59,6 +68,10 @@ export type Query = {
 
 export type QueryUserArgs = {
   id: Scalars["ID"]["input"];
+};
+
+export type QueryUsersArgs = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type User = {
@@ -179,9 +192,11 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
+  CreateUserInput: CreateUserInput;
   Date: ResolverTypeWrapper<Scalars["Date"]["output"]>;
   Family: ResolverTypeWrapper<Family>;
   ID: ResolverTypeWrapper<Scalars["ID"]["output"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
@@ -191,9 +206,11 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"]["output"];
+  CreateUserInput: CreateUserInput;
   Date: Scalars["Date"]["output"];
   Family: Family;
   ID: Scalars["ID"]["output"];
+  Int: Scalars["Int"]["output"];
   Mutation: {};
   Query: {};
   String: Scalars["String"]["output"];
@@ -223,7 +240,12 @@ export type MutationResolvers<
   ParentType extends
     ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
 > = {
-  createUser?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  createUser?: Resolver<
+    ResolversTypes["User"],
+    ParentType,
+    ContextType,
+    Partial<MutationCreateUserArgs>
+  >;
 };
 
 export type QueryResolvers<
@@ -237,7 +259,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryUserArgs, "id">
   >;
-  users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
+  users?: Resolver<
+    Array<ResolversTypes["User"]>,
+    ParentType,
+    ContextType,
+    Partial<QueryUsersArgs>
+  >;
 };
 
 export type UserResolvers<
