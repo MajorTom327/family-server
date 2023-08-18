@@ -37,83 +37,37 @@ export type Scalars = {
   Date: { input: any; output: any };
 };
 
-export type Client = {
-  __typename?: "Client";
+export type Family = {
+  __typename?: "Family";
   createdAt: Scalars["Date"]["output"];
-  email: Scalars["String"]["output"];
-  externalId?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["ID"]["output"];
-  name: Scalars["String"]["output"];
-  orders: Array<Order>;
-  subscriptions: Array<Subscription>;
+  members: Array<User>;
+  owner: User;
   updatedAt: Scalars["Date"]["output"];
 };
 
 export type Mutation = {
   __typename?: "Mutation";
-  createClient: Client;
-  createProduct: Product;
-  createProject: Project;
-};
-
-export type MutationCreateClientArgs = {
-  email: Scalars["String"]["input"];
-  name: Scalars["String"]["input"];
-  projectId: Scalars["String"]["input"];
-};
-
-export type MutationCreateProductArgs = {
-  name: Scalars["String"]["input"];
-  price: Scalars["Int"]["input"];
-  projectId: Scalars["String"]["input"];
-};
-
-export type MutationCreateProjectArgs = {
-  name: Scalars["String"]["input"];
-};
-
-export type Order = {
-  __typename?: "Order";
-  client: Client;
-  createdAt: Scalars["Date"]["output"];
-  externalId?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["ID"]["output"];
-  updatedAt: Scalars["Date"]["output"];
-};
-
-export type Product = {
-  __typename?: "Product";
-  createdAt: Scalars["Date"]["output"];
-  id: Scalars["ID"]["output"];
-  name: Scalars["String"]["output"];
-  price: Scalars["Int"]["output"];
-  updatedAt: Scalars["Date"]["output"];
-};
-
-export type Project = {
-  __typename?: "Project";
-  clients: Array<Client>;
-  createdAt: Scalars["Date"]["output"];
-  id: Scalars["ID"]["output"];
-  name: Scalars["String"]["output"];
-  products: Array<Product>;
-  updatedAt: Scalars["Date"]["output"];
+  createUser: User;
 };
 
 export type Query = {
   __typename?: "Query";
-  clients: Array<Client>;
-  projects: Array<Project>;
+  user?: Maybe<User>;
+  users: Array<User>;
 };
 
-export type Subscription = {
-  __typename?: "Subscription";
-  cancelAtPeriodEnd: Scalars["Boolean"]["output"];
+export type QueryUserArgs = {
+  id: Scalars["ID"]["input"];
+};
+
+export type User = {
+  __typename?: "User";
   createdAt: Scalars["Date"]["output"];
+  email: Scalars["String"]["output"];
+  family?: Maybe<Family>;
   id: Scalars["ID"]["output"];
-  lastExecution?: Maybe<Scalars["Date"]["output"]>;
-  nextExecution?: Maybe<Scalars["Date"]["output"]>;
-  orders: Array<Order>;
+  password: Scalars["String"]["output"];
   updatedAt: Scalars["Date"]["output"];
 };
 
@@ -225,57 +179,25 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
-  Client: ResolverTypeWrapper<Client>;
   Date: ResolverTypeWrapper<Scalars["Date"]["output"]>;
+  Family: ResolverTypeWrapper<Family>;
   ID: ResolverTypeWrapper<Scalars["ID"]["output"]>;
-  Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Mutation: ResolverTypeWrapper<{}>;
-  Order: ResolverTypeWrapper<Order>;
-  Product: ResolverTypeWrapper<Product>;
-  Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]["output"]>;
-  Subscription: ResolverTypeWrapper<{}>;
+  User: ResolverTypeWrapper<User>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"]["output"];
-  Client: Client;
   Date: Scalars["Date"]["output"];
+  Family: Family;
   ID: Scalars["ID"]["output"];
-  Int: Scalars["Int"]["output"];
   Mutation: {};
-  Order: Order;
-  Product: Product;
-  Project: Project;
   Query: {};
   String: Scalars["String"]["output"];
-  Subscription: {};
-};
-
-export type ClientResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Client"] = ResolversParentTypes["Client"],
-> = {
-  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  externalId?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  orders?: Resolver<Array<ResolversTypes["Order"]>, ParentType, ContextType>;
-  subscriptions?: Resolver<
-    Array<ResolversTypes["Subscription"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+  User: User;
 };
 
 export interface DateScalarConfig
@@ -283,77 +205,25 @@ export interface DateScalarConfig
   name: "Date";
 }
 
+export type FamilyResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes["Family"] = ResolversParentTypes["Family"],
+> = {
+  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  members?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<
   ContextType = any,
   ParentType extends
     ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
 > = {
-  createClient?: Resolver<
-    ResolversTypes["Client"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateClientArgs, "email" | "name" | "projectId">
-  >;
-  createProduct?: Resolver<
-    ResolversTypes["Product"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateProductArgs, "name" | "price" | "projectId">
-  >;
-  createProject?: Resolver<
-    ResolversTypes["Project"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateProjectArgs, "name">
-  >;
-};
-
-export type OrderResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Order"] = ResolversParentTypes["Order"],
-> = {
-  client?: Resolver<ResolversTypes["Client"], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  externalId?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ProductResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Product"] = ResolversParentTypes["Product"],
-> = {
-  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  price?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ProjectResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes["Project"] = ResolversParentTypes["Project"],
-> = {
-  clients?: Resolver<Array<ResolversTypes["Client"]>, ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  products?: Resolver<
-    Array<ResolversTypes["Product"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+  createUser?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
 };
 
 export type QueryResolvers<
@@ -361,70 +231,33 @@ export type QueryResolvers<
   ParentType extends
     ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
 > = {
-  clients?: Resolver<Array<ResolversTypes["Client"]>, ParentType, ContextType>;
-  projects?: Resolver<
-    Array<ResolversTypes["Project"]>,
+  user?: Resolver<
+    Maybe<ResolversTypes["User"]>,
     ParentType,
-    ContextType
+    ContextType,
+    RequireFields<QueryUserArgs, "id">
   >;
+  users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
 };
 
-export type SubscriptionResolvers<
+export type UserResolvers<
   ContextType = any,
   ParentType extends
-    ResolversParentTypes["Subscription"] = ResolversParentTypes["Subscription"],
+    ResolversParentTypes["User"] = ResolversParentTypes["User"],
 > = {
-  cancelAtPeriodEnd?: SubscriptionResolver<
-    ResolversTypes["Boolean"],
-    "cancelAtPeriodEnd",
-    ParentType,
-    ContextType
-  >;
-  createdAt?: SubscriptionResolver<
-    ResolversTypes["Date"],
-    "createdAt",
-    ParentType,
-    ContextType
-  >;
-  id?: SubscriptionResolver<
-    ResolversTypes["ID"],
-    "id",
-    ParentType,
-    ContextType
-  >;
-  lastExecution?: SubscriptionResolver<
-    Maybe<ResolversTypes["Date"]>,
-    "lastExecution",
-    ParentType,
-    ContextType
-  >;
-  nextExecution?: SubscriptionResolver<
-    Maybe<ResolversTypes["Date"]>,
-    "nextExecution",
-    ParentType,
-    ContextType
-  >;
-  orders?: SubscriptionResolver<
-    Array<ResolversTypes["Order"]>,
-    "orders",
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: SubscriptionResolver<
-    ResolversTypes["Date"],
-    "updatedAt",
-    ParentType,
-    ContextType
-  >;
+  createdAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  family?: Resolver<Maybe<ResolversTypes["Family"]>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  password?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes["Date"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Client?: ClientResolvers<ContextType>;
   Date?: GraphQLScalarType;
+  Family?: FamilyResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  Order?: OrderResolvers<ContextType>;
-  Product?: ProductResolvers<ContextType>;
-  Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  Subscription?: SubscriptionResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 };

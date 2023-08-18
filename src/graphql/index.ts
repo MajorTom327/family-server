@@ -12,18 +12,18 @@ export type GraphQLContext = {};
 
 export const resolvers: Resolvers = {
   Query: {
-    clients: () => [],
-    projects: () => [],
+    user: () => null,
+    users: () => [],
   },
-  Project: {
-    clients: always([]),
-    // clients: (parent) => new ClientResolver().getProjectClients(parent.id),
-    products: always([]),
-  },
-  Client: {
-    orders: always([]),
-    subscriptions: always([]),
-  },
+  // Project: {
+  //   clients: always([]),
+  //   // clients: (parent) => new ClientResolver().getProjectClients(parent.id),
+  //   products: always([]),
+  // },
+  // Client: {
+  //   orders: always([]),
+  //   subscriptions: always([]),
+  // },
 
   Mutation: {
     // createProject: (parents, { name }) =>

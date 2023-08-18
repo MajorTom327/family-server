@@ -1,64 +1,31 @@
 scalar Date
 
-type Project {
+type User {
   id: ID!
-  name: String!
-
-  clients: [Client!]!
-  products: [Product!]!
-
-  createdAt: Date!
-  updatedAt: Date!
-}
-
-type Product {
-  id: ID!
-  name: String!
-  price: Int!
-
-  createdAt: Date!
-  updatedAt: Date!
-}
-
-type Client {
-  id: ID!
-  externalId: String
-  name: String!
   email: String!
-  orders: [Order!]!
-  subscriptions: [Subscription!]!
+  password: String!
+
+  family: Family
 
   createdAt: Date!
   updatedAt: Date!
 }
 
-type Order {
+type Family {
   id: ID!
-  externalId: String
-  client: Client!
-  createdAt: Date!
-  updatedAt: Date!
-}
 
-type Subscription {
-  id: ID!
-  cancelAtPeriodEnd: Boolean!
-
-  lastExecution: Date
-  nextExecution: Date
-  orders: [Order!]!
+  owner: User!
+  members: [User!]!
 
   createdAt: Date!
   updatedAt: Date!
 }
 
 type Query {
-  clients: [Client!]!
-  projects: [Project!]!
+  users: [User!]!
+  user(id: ID!): User
 }
 
 type Mutation {
-  createProject(name: String!): Project!
-  createClient(name: String!, email: String! projectId: String!): Client!
-  createProduct(name: String!, price: Int!, projectId: String!): Product!
+  createUser: User!
 }
